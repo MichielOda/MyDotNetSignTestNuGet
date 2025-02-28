@@ -20,6 +20,11 @@ jobs:
     - name: Install dotnet sign
       run: dotnet tool install sign --global --prerelease
 
+    - name: Extra information for Issue
+      run: |
+        sign --version
+        dotnet --info
+
     - name: Sign NuGet Package
       run: |       
           sign code azure-key-vault "**/*.nupkg" `
