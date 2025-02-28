@@ -1,0 +1,32 @@
+name: DotNet Sign Issue
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  Windows:
+    runs-on: windows-latest
+    env: 
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }} 
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build
+      run: dotnet build -c Release
+
+    - name: Install dotnet sign
+      run: dotnet tool install sign --global --prerelease
+
+    - name: Sign NuGet Package
+      run: |       
+          sign code azure-key-vault "**/*.nupkg" `
+          --publisher-name "Skyline Communications" `
+          --description "Skyline Signing" `
+          --description-url "https://www.skyline.be/" `
+          --azure-key-vault-certificate "Skyline-CodeSigning" `
+          --azure-key-vault-url "https://kv-slc-codesigning.vault.azure.net/" `
+          --output "_SignedNuGetResults"   
+      shell: pwsh
