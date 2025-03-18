@@ -2,7 +2,7 @@ name: DotNet Sign Issue
 
 on:
   push:
-    branches: [ "main" ]
+    branches: []
 
 jobs:
   Windows:
