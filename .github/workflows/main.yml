@@ -3,7 +3,7 @@ name: DotNet Sign Issue
 on:
   push:
     branches: [ "main" ]
-
+  workflow_dispatch:
 jobs:
   Windows:
     runs-on: windows-latest
